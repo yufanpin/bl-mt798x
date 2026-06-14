@@ -203,8 +203,37 @@ jobs:
       - name: Build
         run: ./build.sh
 
-      - name: Upload firmware
+      - name: Stage firmware
+        run: |
+          mkdir -p staged
+          cp output/*.bin staged/
+
+      - name: Upload firmware (all jobs merge into one artifact)
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.SOC }}_${{ env.BOARD }}${{ env.MULTI_LAYOUT == '1' && '-multi-layout' || '' }}
-          path: output/
+          name: firmware
+          path: staged/*.bin
+
+  release:
+    needs: build
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: firmware
+
+      - name: Check firmware list
+        run: ls -la firmware/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.sha }}
+          name: Firmware ${{ github.sha.substring(0,7) }}
+          body_path: /dev/null
+          body: "Auto-built firmware from commit ${{ github.sha }}"
+          files: firmware/*
+          fail_on_unmatched_files: false
