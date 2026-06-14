@@ -10,24 +10,17 @@ on:
       SOC:
         description: SoC (mt7981 or mt7986)
         required: true
-        default: mt7981
+        default: all
         type: choice
         options:
+          - all
           - mt7981
           - mt7986
       BOARD:
-        description: Board name (e.g. 360t7, wr30u, redmi_ax6000)
-        required: true
-        default: 360t7
-        type: string
-      MULTI_LAYOUT:
-        description: Enable multi-layout
+        description: Board name (optional, default=all boards)
         required: false
-        default: '0'
-        type: choice
-        options:
-          - '0'
-          - '1'
+        default: ''
+        type: string
 
 jobs:
   build:
@@ -36,34 +29,168 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # ===== mt7981 default only =====
           - SOC: mt7981
             BOARD: 360t7
             MULTI_LAYOUT: '0'
-            desc: mt7981 NAND basic
           - SOC: mt7981
-            BOARD: wr30u
-            MULTI_LAYOUT: '1'
-            desc: mt7981 NAND multi-layout
+            BOARD: abt_asr3000
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: cetron_ct3003
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: cmcc_a10
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: cmcc_rax3000m
+            MULTI_LAYOUT: '0'
           - SOC: mt7981
             BOARD: cmcc_rax3000m-emmc
             MULTI_LAYOUT: '0'
-            desc: mt7981 eMMC
-          - SOC: mt7986
-            BOARD: redmi_ax6000
-            MULTI_LAYOUT: '1'
-            desc: mt7986 NAND multi-layout
-          - SOC: mt7986
-            BOARD: jdcloud_re-cp-03
+          - SOC: mt7981
+            BOARD: cmcc_xr30
             MULTI_LAYOUT: '0'
-            desc: mt7986 NAND basic
+          - SOC: mt7981
+            BOARD: cmcc_xr30-emmc
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: glinet_gl-mt2500
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: glinet_gl-mt3000
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: h3c_magic-nx30-pro
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: imou_lc-hx3001
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: jcg_q30
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: konka_komi-a31
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: livinet_zr-3020
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: nokia_ea0326gmp
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: openembed_som7981
+            MULTI_LAYOUT: '0'
+
+          # ===== mt7981 default + multi-layout =====
+          - SOC: mt7981
+            BOARD: ax3000t
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: ax3000t
+            MULTI_LAYOUT: '1'
+          - SOC: mt7981
+            BOARD: clt_r30b1
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: clt_r30b1
+            MULTI_LAYOUT: '1'
+          - SOC: mt7981
+            BOARD: honor_fur-602
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: honor_fur-602
+            MULTI_LAYOUT: '1'
+          - SOC: mt7981
+            BOARD: newland_nl-wr8103
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: newland_nl-wr8103
+            MULTI_LAYOUT: '1'
+          - SOC: mt7981
+            BOARD: newland_nl-wr9103
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: newland_nl-wr9103
+            MULTI_LAYOUT: '1'
+          - SOC: mt7981
+            BOARD: ruijie_rg_x30e
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: ruijie_rg_x30e
+            MULTI_LAYOUT: '1'
+          - SOC: mt7981
+            BOARD: ruijie_rg_x30e_pro
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: ruijie_rg_x30e_pro
+            MULTI_LAYOUT: '1'
+          - SOC: mt7981
+            BOARD: wr30u
+            MULTI_LAYOUT: '0'
+          - SOC: mt7981
+            BOARD: wr30u
+            MULTI_LAYOUT: '1'
+
+          # ===== mt7986 default only =====
+          - SOC: mt7986
+            BOARD: bpi_r3-emmc
+            MULTI_LAYOUT: '0'
           - SOC: mt7986
             BOARD: bpi_r3mini-emmc
             MULTI_LAYOUT: '0'
-            desc: mt7986 eMMC
+          - SOC: mt7986
+            BOARD: bpi_r3-nor
+            MULTI_LAYOUT: '0'
+          - SOC: mt7986
+            BOARD: bpi_r3-sd
+            MULTI_LAYOUT: '0'
+          - SOC: mt7986
+            BOARD: glinet_gl-mt6000
+            MULTI_LAYOUT: '0'
+          - SOC: mt7986
+            BOARD: jdcloud_re-cp-03
+            MULTI_LAYOUT: '0'
+          - SOC: mt7986
+            BOARD: tplink_tl-xdr608x
+            MULTI_LAYOUT: '0'
+          - SOC: mt7986
+            BOARD: tplink_tl-xtr8488
+            MULTI_LAYOUT: '0'
+          - SOC: mt7986
+            BOARD: zyxel_ex5700
+            MULTI_LAYOUT: '0'
+
+          # ===== mt7986 default + multi-layout =====
+          - SOC: mt7986
+            BOARD: bpi_r3mini-snand
+            MULTI_LAYOUT: '0'
+          - SOC: mt7986
+            BOARD: bpi_r3mini-snand
+            MULTI_LAYOUT: '1'
+          - SOC: mt7986
+            BOARD: bpi_r3-snand
+            MULTI_LAYOUT: '0'
+          - SOC: mt7986
+            BOARD: bpi_r3-snand
+            MULTI_LAYOUT: '1'
+          - SOC: mt7986
+            BOARD: redmi_ax6000
+            MULTI_LAYOUT: '0'
+          - SOC: mt7986
+            BOARD: redmi_ax6000
+            MULTI_LAYOUT: '1'
+          - SOC: mt7986
+            BOARD: ruijie_rg-x60-pro
+            MULTI_LAYOUT: '0'
+          - SOC: mt7986
+            BOARD: ruijie_rg-x60-pro
+            MULTI_LAYOUT: '1'
+
     env:
-      SOC: ${{ inputs.SOC || matrix.SOC }}
-      BOARD: ${{ inputs.BOARD || matrix.BOARD }}
-      MULTI_LAYOUT: ${{ inputs.MULTI_LAYOUT || matrix.MULTI_LAYOUT }}
+      SOC: ${{ matrix.SOC }}
+      BOARD: ${{ matrix.BOARD }}
+      MULTI_LAYOUT: ${{ matrix.MULTI_LAYOUT }}
 
     steps:
       - uses: actions/checkout@v4
@@ -73,13 +200,10 @@ jobs:
           sudo apt update
           sudo apt install -y gcc-aarch64-linux-gnu build-essential flex bison libssl-dev device-tree-compiler
 
-      - name: Show toolchain version
-        run: aarch64-linux-gnu-gcc --version
-
-      - name: Build (${{ env.SOC }}/${{ env.BOARD }}, multilayout=${{ env.MULTI_LAYOUT }})
+      - name: Build
         run: ./build.sh
 
-      - name: Upload artifacts
+      - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.SOC }}_${{ env.BOARD }}${{ env.MULTI_LAYOUT == '1' && '-multi-layout' || '' }}
