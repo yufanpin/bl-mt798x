@@ -1,0 +1,86 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+    inputs:
+      SOC:
+        description: SoC (mt7981 or mt7986)
+        required: true
+        default: mt7981
+        type: choice
+        options:
+          - mt7981
+          - mt7986
+      BOARD:
+        description: Board name (e.g. 360t7, wr30u, redmi_ax6000)
+        required: true
+        default: 360t7
+        type: string
+      MULTI_LAYOUT:
+        description: Enable multi-layout
+        required: false
+        default: '0'
+        type: choice
+        options:
+          - '0'
+          - '1'
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - SOC: mt7981
+            BOARD: 360t7
+            MULTI_LAYOUT: '0'
+            desc: mt7981 NAND basic
+          - SOC: mt7981
+            BOARD: wr30u
+            MULTI_LAYOUT: '1'
+            desc: mt7981 NAND multi-layout
+          - SOC: mt7981
+            BOARD: cmcc_rax3000m-emmc
+            MULTI_LAYOUT: '0'
+            desc: mt7981 eMMC
+          - SOC: mt7986
+            BOARD: redmi_ax6000
+            MULTI_LAYOUT: '1'
+            desc: mt7986 NAND multi-layout
+          - SOC: mt7986
+            BOARD: jdcloud_re-cp-03
+            MULTI_LAYOUT: '0'
+            desc: mt7986 NAND basic
+          - SOC: mt7986
+            BOARD: bpi_r3mini-emmc
+            MULTI_LAYOUT: '0'
+            desc: mt7986 eMMC
+    env:
+      SOC: ${{ inputs.SOC || matrix.SOC }}
+      BOARD: ${{ inputs.BOARD || matrix.BOARD }}
+      MULTI_LAYOUT: ${{ inputs.MULTI_LAYOUT || matrix.MULTI_LAYOUT }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        run: |
+          sudo apt update
+          sudo apt install -y gcc-aarch64-linux-gnu build-essential flex bison libssl-dev device-tree-compiler
+
+      - name: Show toolchain version
+        run: aarch64-linux-gnu-gcc --version
+
+      - name: Build (${{ env.SOC }}/${{ env.BOARD }}, multilayout=${{ env.MULTI_LAYOUT }})
+        run: ./build.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.SOC }}_${{ env.BOARD }}${{ env.MULTI_LAYOUT == '1' && '-multi-layout' || '' }}
+          path: output/

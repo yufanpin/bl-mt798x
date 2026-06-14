@@ -25,6 +25,23 @@ eg: SOC=mt7986 BOARD=bpi_r3mini_snand MULTI_LAYOUT=1 ./build.sh
 eg: SOC=mt7986 BOARD=bpi_r3mini-emmc ./build.sh
 ```
 
+## DHCP Server (since 2026-06-14)
+
+A minimal built-in DHCPv4 server (`mtk_dhcpd`) is integrated into the web failsafe.
+When you enter the web failsafe, it automatically assigns an IP address to your PC —
+no need to manually set a static IP.
+
+- Auto-starts with `httpd` command (web failsafe)
+- Provides IP, netmask, gateway, and DNS to connected clients
+- Default pool: 192.168.1.100–200 (/24), configurable via `dhcpd_pool_start` / `dhcpd_pool_size` env vars
+- Enable verbose logging: `setenv dhcpd_verbose 1`
+- Manually control via CLI: `dhcpd start` / `dhcpd stop`
+
+To disable DHCPD on a board that has the web failsafe, add to defconfig:
+```
+# CONFIG_MTK_DHCPD is not set
+```
+
 ---
 
 ### xiaomi-wr30u multi-layout uboot firmware compatibility

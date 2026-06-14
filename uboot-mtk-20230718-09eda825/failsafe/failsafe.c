@@ -14,6 +14,7 @@
 #include <net.h>
 #include <net/mtk_tcp.h>
 #include <net/mtk_httpd.h>
+#include <net/mtk_dhcpd.h>
 #include <u-boot/md5.h>
 #include <linux/stringify.h>
 #include <dm/ofnode.h>
@@ -432,7 +433,11 @@ static int do_httpd(struct cmd_tbl *cmdtp, int flag, int argc,
 	       (local_ip >> 8) & 0xff, local_ip & 0xff);
 	printf("\nPress Ctrl+C to exit\n");
 
+	mtk_dhcpd_start();
+
 	ret = start_web_failsafe();
+
+	mtk_dhcpd_stop();
 
 	if (upgrade_success) {
 		if (fw_type == FW_TYPE_INITRD)

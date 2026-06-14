@@ -265,6 +265,43 @@ config MTK_HTTPD
 	help
 	  Enable mediatek httpd framework that allows some customized features.
 
+config MTK_DHCPD
+	bool "Minimal DHCP server for web failsafe"
+	default MTK_HTTPD
+	depends on MTK_HTTPD
+	help
+	  Enable a minimal DHCPv4 server that auto-starts with the web failsafe
+	  HTTP server. Provides IP/netmask/gateway/DNS to a directly connected PC
+	  so the user can access the failsafe web UI without manually configuring
+	  a static IP.
+
+if MTK_DHCPD
+
+config MTK_DHCPD_USE_CONFIG_IP
+	bool "Use configured IP/netmask instead of runtime net_ip/net_netmask"
+	default n
+	help
+	  Use default IP and netmask from Kconfig (CONFIG_IPADDR, CONFIG_NETMASK)
+	  instead of runtime values from net_ip and net_netmask.
+
+config MTK_DHCPD_POOL_START_HOST
+	int "DHCP pool start host offset"
+	default 100
+	range 1 253
+	help
+	  Starting host number for the DHCP address pool relative to the subnet.
+	  E.g. if server IP is 192.168.1.1 and netmask is 255.255.255.0,
+	  the first leased address will be 192.168.1.100.
+
+config MTK_DHCPD_POOL_SIZE
+	int "DHCP pool size"
+	default 101
+	range 1 254
+	help
+	  Number of addresses in the DHCP pool.
+
+endif
+
 config NET_FORCE_IPADDR
 	bool "Use ipaddr and netmask with CONFIG_IPADDR and CONFIG_NETMASK"
 	default n
