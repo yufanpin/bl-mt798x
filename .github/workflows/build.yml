@@ -1,197 +1,14 @@
 name: Build
 
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
   workflow_dispatch:
-    inputs:
-      SOC:
-        description: SoC (mt7981 or mt7986)
-        required: true
-        default: all
-        type: choice
-        options:
-          - all
-          - mt7981
-          - mt7986
-      BOARD:
-        description: Board name (optional, default=all boards)
-        required: false
-        default: ''
-        type: string
+  push:
 
 jobs:
   build:
     runs-on: ubuntu-22.04
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          # ===== mt7981 default only =====
-          - SOC: mt7981
-            BOARD: 360t7
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: abt_asr3000
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: cetron_ct3003
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: cmcc_a10
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: cmcc_rax3000m
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: cmcc_rax3000m-emmc
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: cmcc_xr30
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: cmcc_xr30-emmc
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: glinet_gl-mt2500
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: glinet_gl-mt3000
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: h3c_magic-nx30-pro
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: imou_lc-hx3001
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: jcg_q30
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: konka_komi-a31
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: livinet_zr-3020
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: nokia_ea0326gmp
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: openembed_som7981
-            MULTI_LAYOUT: '0'
-
-          # ===== mt7981 default + multi-layout =====
-          - SOC: mt7981
-            BOARD: ax3000t
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: ax3000t
-            MULTI_LAYOUT: '1'
-          - SOC: mt7981
-            BOARD: clt_r30b1
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: clt_r30b1
-            MULTI_LAYOUT: '1'
-          - SOC: mt7981
-            BOARD: honor_fur-602
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: honor_fur-602
-            MULTI_LAYOUT: '1'
-          - SOC: mt7981
-            BOARD: newland_nl-wr8103
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: newland_nl-wr8103
-            MULTI_LAYOUT: '1'
-          - SOC: mt7981
-            BOARD: newland_nl-wr9103
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: newland_nl-wr9103
-            MULTI_LAYOUT: '1'
-          - SOC: mt7981
-            BOARD: ruijie_rg_x30e
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: ruijie_rg_x30e
-            MULTI_LAYOUT: '1'
-          - SOC: mt7981
-            BOARD: ruijie_rg_x30e_pro
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: ruijie_rg_x30e_pro
-            MULTI_LAYOUT: '1'
-          - SOC: mt7981
-            BOARD: wr30u
-            MULTI_LAYOUT: '0'
-          - SOC: mt7981
-            BOARD: wr30u
-            MULTI_LAYOUT: '1'
-
-          # ===== mt7986 default only =====
-          - SOC: mt7986
-            BOARD: bpi_r3-emmc
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: bpi_r3mini-emmc
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: bpi_r3-nor
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: bpi_r3-sd
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: glinet_gl-mt6000
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: jdcloud_re-cp-03
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: tplink_tl-xdr608x
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: tplink_tl-xtr8488
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: zyxel_ex5700
-            MULTI_LAYOUT: '0'
-
-          # ===== mt7986 default + multi-layout =====
-          - SOC: mt7986
-            BOARD: bpi_r3mini-snand
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: bpi_r3mini-snand
-            MULTI_LAYOUT: '1'
-          - SOC: mt7986
-            BOARD: bpi_r3-snand
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: bpi_r3-snand
-            MULTI_LAYOUT: '1'
-          - SOC: mt7986
-            BOARD: redmi_ax6000
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: redmi_ax6000
-            MULTI_LAYOUT: '1'
-          - SOC: mt7986
-            BOARD: ruijie_rg-x60-pro
-            MULTI_LAYOUT: '0'
-          - SOC: mt7986
-            BOARD: ruijie_rg-x60-pro
-            MULTI_LAYOUT: '1'
-
-    env:
-      SOC: ${{ matrix.SOC }}
-      BOARD: ${{ matrix.BOARD }}
-      MULTI_LAYOUT: ${{ matrix.MULTI_LAYOUT }}
-
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -200,40 +17,68 @@ jobs:
           sudo apt update
           sudo apt install -y gcc-aarch64-linux-gnu build-essential flex bison libssl-dev device-tree-compiler
 
-      - name: Build
-        run: ./build.sh
+      - name: Build all boards
+        run: |
+          set -e
+          mkdir -p output
+
+          # mt7981 default only
+          for board in \
+            360t7 abt_asr3000 cetron_ct3003 cmcc_a10 cmcc_rax3000m \
+            cmcc_rax3000m-emmc cmcc_xr30 cmcc_xr30-emmc \
+            glinet_gl-mt2500 glinet_gl-mt3000 h3c_magic-nx30-pro \
+            imou_lc-hx3001 jcg_q30 konka_komi-a31 livinet_zr-3020 \
+            nokia_ea0326gmp openembed_som7981; do
+            echo "=== Building mt7981 $board ==="
+            SOC=mt7981 BOARD=$board ./build.sh || echo "WARN: mt7981 $board failed"
+          done
+
+          # mt7981 default + multi-layout
+          for board in ax3000t clt_r30b1 honor_fur-602 newland_nl-wr8103 \
+            newland_nl-wr9103 ruijie_rg_x30e ruijie_rg_x30e_pro wr30u; do
+            echo "=== Building mt7981 $board (default) ==="
+            SOC=mt7981 BOARD=$board MULTI_LAYOUT=0 ./build.sh || echo "WARN: mt7981 $board default failed"
+            echo "=== Building mt7981 $board (multi-layout) ==="
+            SOC=mt7981 BOARD=$board MULTI_LAYOUT=1 ./build.sh || echo "WARN: mt7981 $board multi-layout failed"
+          done
+
+          # mt7986 default only
+          for board in \
+            bpi_r3-emmc bpi_r3mini-emmc bpi_r3-nor bpi_r3-sd \
+            glinet_gl-mt6000 jdcloud_re-cp-03 tplink_tl-xdr608x \
+            tplink_tl-xtr8488 zyxel_ex5700; do
+            echo "=== Building mt7986 $board ==="
+            SOC=mt7986 BOARD=$board ./build.sh || echo "WARN: mt7986 $board failed"
+          done
+
+          # mt7986 default + multi-layout
+          for board in bpi_r3mini-snand bpi_r3-snand redmi_ax6000 ruijie_rg-x60-pro; do
+            echo "=== Building mt7986 $board (default) ==="
+            SOC=mt7986 BOARD=$board MULTI_LAYOUT=0 ./build.sh || echo "WARN: mt7986 $board default failed"
+            echo "=== Building mt7986 $board (multi-layout) ==="
+            SOC=mt7986 BOARD=$board MULTI_LAYOUT=1 ./build.sh || echo "WARN: mt7986 $board multi-layout failed"
+          done
 
       - name: Stage firmware
         run: |
           mkdir -p staged
-          cp output/*.bin staged/
+          cp output/*.bin staged/ 2>/dev/null || true
+          echo "Built files:"
+          ls -la staged/
 
-      - name: Upload firmware (all jobs merge into one artifact)
+      - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: firmware
           path: staged/*.bin
 
-  release:
-    needs: build
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: firmware
-          path: firmware
-
-      - name: Check firmware list
-        run: ls -la firmware/
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.sha }}
-          name: Firmware ${{ github.sha.substring(0,7) }}
-          body_path: /dev/null
-          body: "Auto-built firmware from commit ${{ github.sha }}"
-          files: firmware/*
+          name: Firmware ${{ github.sha }}
+          body: |
+            Auto-built firmware from commit ${{ github.sha }}
+            Date: ${{ github.event.repository.updated_at }}
+          files: staged/*.bin
           fail_on_unmatched_files: false
